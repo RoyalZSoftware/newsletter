@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BASE_DIR=./test # can be overriden
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$SCRIPT_DIR/../lib"
 
@@ -10,14 +12,14 @@ fi
 
 source $LIB_DIR/abstract.mailservice.sh
 
-BASE_DIR=./test # can be overriden
-TEMPLATE=lib/default.template.html
+CONTENT_DIR=$LIB_DIR/content
+TEMPLATE=$CONTENT_DIR/template.html
 MAIL_SERVICE=unset
 
 if [ -f ~/.newsletter ]; then
     . ~/.newsletter
 else
-    touch ~/.newsletter # override any settings in here.
+    cp .newsletter.example ~/.newsletter # override any settings in here.
 fi
 
 if [ "$MAIL_SERVICE" = "sendgrid" ]; then
