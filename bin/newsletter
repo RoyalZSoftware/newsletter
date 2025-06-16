@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source lib/abstract.mailservice.sh
+
+BASE_DIR=./test # can be overriden
+TEMPLATE=content/example.template.html
+MAIL_SERVICE=unset
+
+if [ -f ~/.newsletter ]; then
+    . ~/.newsletter
+else
+    touch ~/.newsletter # override any settings in here.
+fi
+
+if [ "$MAIL_SERVICE" = "sendgrid" ]; then
+    . lib/sendgrid.mailservice.sh
+fi
+
+source lib/templater.sh
+source lib/newsletter.sh
+
+# use params from cli to invoke functions from lib/newsletter.sh
+"$@"
