@@ -92,8 +92,8 @@ function unsubscribe {
 }
 
 function list {
-    echo "PENDING: $(ls $PENDING_DIR)"
-    echo "SUBSCRIBED: $(ls $SUBSCRIBED_DIR)"
+    echo "Pending: $(ls $PENDING_DIR)"
+    echo "Subscribed: $(ls $SUBSCRIBED_DIR)"
 }
 
 # send <email> <issue_name>
