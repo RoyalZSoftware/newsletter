@@ -1,9 +1,17 @@
 #!/bin/bash
 
-source lib/abstract.mailservice.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$SCRIPT_DIR/../lib"
+
+# Bei Installation z. B. in /usr/local/bin, LIB_DIR auf /usr/local/share/newsletter setzen
+if [ "$SCRIPT_DIR" = "/usr/local/bin" ]; then
+    LIB_DIR="/usr/local/share/newsletter"
+fi
+
+source $LIB_DIR/abstract.mailservice.sh
 
 BASE_DIR=./test # can be overriden
-TEMPLATE=content/example.template.html
+TEMPLATE=lib/default.template.html
 MAIL_SERVICE=unset
 
 if [ -f ~/.newsletter ]; then
@@ -13,11 +21,10 @@ else
 fi
 
 if [ "$MAIL_SERVICE" = "sendgrid" ]; then
-    . lib/sendgrid.mailservice.sh
+    . $LIB_DIR/sendgrid.mailservice.sh
 fi
 
-source lib/templater.sh
-source lib/newsletter.sh
+source $LIB_DIR/newsletter.sh
 
 # use params from cli to invoke functions from lib/newsletter.sh
 "$@"

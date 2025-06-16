@@ -91,6 +91,11 @@ function unsubscribe {
     echo "Successful unsubscribed"
 }
 
+function list {
+    echo "PENDING: $(ls $PENDING_DIR)"
+    echo "SUBSCRIBED: $(ls $SUBSCRIBED_DIR)"
+}
+
 # send <email> <issue_name>
 function send {
     is_strict_email $1
