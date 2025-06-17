@@ -2,8 +2,17 @@
 use strict;
 use warnings;
 
+my $in_frontmatter = 0;
+
 while (<>) {
     chomp;
+
+    # Frontmatter ignorieren
+    if (/^---\s*$/) {
+        $in_frontmatter = !$in_frontmatter;
+        next;
+    }
+    next if $in_frontmatter;
 
     # Überschriften
     if (/^###\s+(.*)/) {

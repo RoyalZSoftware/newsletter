@@ -13,6 +13,7 @@ mkdir -p $SUBSCRIBED_DIR
 mkdir -p $PENDING_DIR
 mkdir -p $EMAIL_ISSUES_DIR
 mkdir -p $OUTBOX_DIR
+mkdir -p $JOURNEYS_DIR
 
 chown -R $(whoami) $BASE_DIR
 
@@ -22,8 +23,7 @@ compile_template() {
   shift
 
   # 1. Markdown laden
-  local md_content
-  md_content=$(cat "$md_path")
+  local md_content=$(cat "$md_path")
 
   # 2. Variablen ersetzen
   while [[ $# -gt 0 ]]; do
@@ -36,8 +36,7 @@ compile_template() {
   done
 
   # 3. Markdown in HTML wandeln
-  local html
-  html=$(printf '%s\n' "$md_content" | lib/markdown2html.pl)
+  local html=$(lib/markdown2html.pl < "$md_path")
 
   # 4. Template laden (Variable TEMPLATE muss gesetzt sein)
   if [[ -z "$TEMPLATE" ]]; then
@@ -222,6 +221,7 @@ function add_journey {
     fi
     shopt -s nullglob
     local messages=("$JOURNEYS_DIR/$journey"/*)
+    shopt -s nullglob
 
     for message in "${messages[@]}"; do
         local filename=${message##*/}
@@ -248,6 +248,7 @@ function clear_journeys {
 function send_due {
     shopt -s nullglob
     local messages=("$OUTBOX_DIR"/*)
+    shopt -u nullglob
 
     for file in "${messages[@]}"; do
         read ts journey email <<< $(parse_outbox_filename "$file")
