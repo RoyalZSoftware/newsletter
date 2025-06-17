@@ -27,6 +27,8 @@ if [ "$MAIL_SERVICE" = "sendgrid" ]; then
     . $LIB_DIR/sendgrid.mailservice.sh
 fi
 
+source $LIB_DIR/errors.sh
+source $LIB_DIR/utils.sh
 source $LIB_DIR/newsletter.sh
 
 if [ "$1" = "" ];

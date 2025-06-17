@@ -5,9 +5,15 @@
   "description": "Javascript wrapper for the github:royalzsoftware/newsletter program.",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "types": "tsc --allowJs --declaration --emitDeclarationOnly --outDir types"
   },
-  "keywords": ["newsletter"],
+  "keywords": [
+    "newsletter"
+  ],
   "author": "Alexander Panov",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }
