@@ -5,6 +5,7 @@ Stupidly simple newsletter manager.
 Its written in bash and PERL.
 
 ## Capabilities
+- fully file system based
 - Subscribe email [with code verification]
 - Unsubscribe
 - Templating for newsletter issues
