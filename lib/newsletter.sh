@@ -17,9 +17,42 @@ mkdir -p $OUTBOX_DIR
 chown -R $(whoami) $BASE_DIR
 
 # compile_template <content>
-function compile_template {
-    local content=$(echo $1 | lib/markdown2html.pl)
-    cat $TEMPLATE | sed "s/%%CONTENT%%/Test/g"
+compile_template() {
+  local md_path="$1"
+  shift
+
+  # 1. Markdown laden
+  local md_content
+  md_content=$(cat "$md_path")
+
+  # 2. Variablen ersetzen
+  while [[ $# -gt 0 ]]; do
+    local kv="$1"
+    local key="${kv%%=*}"
+    local val="${kv#*=}"
+    # Ersetze {{key}} durch val im Markdown
+    md_content="${md_content//\{\{$key\}\}/$val}"
+    shift
+  done
+
+  # 3. Markdown in HTML wandeln
+  local html
+  html=$(printf '%s\n' "$md_content" | lib/markdown2html.pl)
+
+  # 4. Template laden (Variable TEMPLATE muss gesetzt sein)
+  if [[ -z "$TEMPLATE" ]]; then
+    echo "Error: TEMPLATE variable not set" >&2
+    return 1
+  fi
+
+  # 5. Template mit %%CONTENT%% ersetzen
+  while IFS= read -r line; do
+    if [[ "$line" == *"%%CONTENT%%"* ]]; then
+      printf '%s\n' "$html"
+    else
+      printf '%s\n' "$line"
+    fi
+  done < "$TEMPLATE"
 }
 
 function is_strict_email {
@@ -57,9 +90,10 @@ function subscribe {
         exit $ERR_ALREADY_SUBSCRIBED
     fi
 
-    CODE=$(_random_code)
-    echo $CODE > $PENDING_DIR/$1
-    echo $CODE
+    code=$(_random_code)
+    echo $code > $PENDING_DIR/$1
+
+    compile_template $CONTENT_DIR/confirm_subscription.md code=$code
 }
 
 # confirm <email> <code>
@@ -101,20 +135,24 @@ function list {
 
 # send <email> <path>
 function send {
-    is_strict_email $1
-    if ! _is_subscribed $1;
+    local email="$1"
+    local path="$2"
+    shift
+    shift
+
+    is_strict_email "$email"
+    if ! _is_subscribed "$email";
     then
         echo "Email is not subscribed."
         exit $ERR_NOT_SUBSCRIBED
     fi
-    ISSUE=$(cat $2 2> /dev/null) || {
+    ISSUE=$(cat $path 2> /dev/null) || {
         echo "Issue not found."
         exit $ERR_ISSUE_NOT_FOUND
     }
-    echo $ISSUE
-    local compiled_template=$(compile_template $2)
-    send_mail $1 "$compiled_template"
-    echo "Sent email issue $2 at $NOW" >> $SUBSCRIBED_DIR/$1
+    local compiled_template=$(compile_template "$path" $*)
+    send_mail "$email" "$compiled_template"
+    echo "Sent email issue $2 at $NOW" >> $SUBSCRIBED_DIR/$email
 }
 
 # _schedule_for <email> <journey> <content_path> <day_offset>
