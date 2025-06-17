@@ -1,0 +1,13 @@
+{
+  "name": "@royalzsoftware/newsletter",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Javascript wrapper for the github:royalzsoftware/newsletter program.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": ["newsletter"],
+  "author": "Alexander Panov",
+  "license": "ISC"
+}
