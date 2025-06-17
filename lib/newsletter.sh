@@ -36,7 +36,7 @@ compile_template() {
   done
 
   # 3. Markdown in HTML wandeln
-  local html=$(lib/markdown2html.pl < "$md_path")
+  local html=$(echo "$md_content" | lib/markdown2html.pl )
 
   # 4. Template laden (Variable TEMPLATE muss gesetzt sein)
   if [[ -z "$TEMPLATE" ]]; then
