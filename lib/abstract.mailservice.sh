@@ -1,4 +1,4 @@
 # send_mail <receiver> <content>
 function send_mail {
-    echo $2
+    echo "Not implemented"
 }

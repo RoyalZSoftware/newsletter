@@ -1,10 +1,4 @@
 #!/bin/bash
-if [ "$BASE_DIR" = "" ]; then
-    BASE_DIR=./test # can be overriden
-fi
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LIB_DIR="$SCRIPT_DIR/../lib"
 
 # Bei Installation z. B. in /usr/local/bin, LIB_DIR auf /usr/local/share/newsletter setzen
 if [ "$SCRIPT_DIR" = "/usr/local/bin" ]; then
@@ -13,36 +7,37 @@ fi
 
 source $LIB_DIR/abstract.mailservice.sh
 
-CONTENT_DIR=$LIB_DIR/content
-TEMPLATE=$CONTENT_DIR/template.html
-MAIL_SERVICE=unset
+CONTENT_DIR="${CONTENT_DIR:-$LIB_DIR/content}"
+TEMPLATE="${TEMPLATE:-$CONTENT_DIR/template.html}"
 
-if [ -f ~/.newsletter ]; then
+if [[ -f ~/.newsletter && ! "$NEWSLETTER_ENV" = "test" ]]; then
     . ~/.newsletter
 else
     cp .newsletter.example ~/.newsletter # override any settings in here.
 fi
 
-if [ "$MAIL_SERVICE" = "sendgrid" ]; then
-    . $LIB_DIR/sendgrid.mailservice.sh
+if [ "$MAIL_SERVICE" ]; then
+    if [ "$MAIL_SERVICE" = "sendgrid" ]; then
+        . $LIB_DIR/sendgrid.mailservice.sh
+    else
+        . $MAIL_SERVICE
+    fi
 fi
 
-PENDING_DIR=$BASE_DIR/pending
-SUBSCRIBED_DIR=$BASE_DIR/subscribed
-EMAIL_ISSUES_DIR=$BASE_DIR/issues
+PENDING_DIR=$DATA_DIR/pending
+SUBSCRIBED_DIR=$DATA_DIR/subscribed
 OUTBOX_DIR=./var/newsletter/outbox
 JOURNEYS_DIR=$CONTENT_DIR/journeys
 
 NOW=`date '+%F_%H:%M:%S'`
 
-mkdir -p $BASE_DIR
+mkdir -p $DATA_DIR
 mkdir -p $SUBSCRIBED_DIR
 mkdir -p $PENDING_DIR
-mkdir -p $EMAIL_ISSUES_DIR
 mkdir -p $OUTBOX_DIR
 mkdir -p $JOURNEYS_DIR
 
-chown -R $(whoami) $BASE_DIR
+chown -R $(whoami) $DATA_DIR
 
 source $LIB_DIR/errors.sh
 source $LIB_DIR/cli.sh

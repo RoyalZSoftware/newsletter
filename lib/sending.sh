@@ -1,25 +1,33 @@
 #!/bin/bash
 
-# send <email> <path>
+# send <email> <content> <silent>
 function send {
+    local email="$1"
+    local content="$2"
+    shift
+    shift
+
+    is_strict_email "$email"
+    local compiled_template=$(compile_template "$content" $*)
+    send_mail "$email" "$compiled_template"
+    if [ -f $SUBSCRIBED_DIR/$1 ]; then
+      echo "Sent email issue $2 at $NOW" >> $SUBSCRIBED_DIR/$email
+    fi
+}
+
+# send_file <email> <path>
+function send_file {
     local email="$1"
     local path="$2"
     shift
     shift
 
-    is_strict_email "$email"
-    if ! _is_subscribed "$email";
-    then
-        echo "Email is not subscribed."
-        exit $ERR_NOT_SUBSCRIBED
-    fi
-    ISSUE=$(cat $path 2> /dev/null) || {
+    local issue=$(cat $path) || {
         echo "Issue not found."
         exit $ERR_ISSUE_NOT_FOUND
     }
-    local compiled_template=$(compile_template "$path" $*)
-    send_mail "$email" "$compiled_template"
-    echo "Sent email issue $2 at $NOW" >> $SUBSCRIBED_DIR/$email
+
+    send "$email" "$issue" $*
 }
 
 # _schedule_for <email> <journey> <content_path> <day_offset>

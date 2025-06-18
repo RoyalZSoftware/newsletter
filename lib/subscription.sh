@@ -22,7 +22,7 @@ function subscribe {
     code=$(_random_code)
     echo $code > $PENDING_DIR/$1
 
-    compile_template $CONTENT_DIR/confirm_subscription.md code=$code
+    send_file "$1" $CONTENT_DIR/confirm_subscription.md code=$code
 }
 
 # confirm <email> <code>

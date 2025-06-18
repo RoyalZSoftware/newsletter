@@ -1,10 +1,7 @@
 # compile_template <content>
 compile_template() {
-  local md_path="$1"
+  local content="$1"
   shift
-
-  # 1. Markdown laden
-  local md_content=$(cat "$md_path")
 
   # 2. Variablen ersetzen
   while [[ $# -gt 0 ]]; do
@@ -12,12 +9,12 @@ compile_template() {
     local key="${kv%%=*}"
     local val="${kv#*=}"
     # Ersetze {{key}} durch val im Markdown
-    md_content="${md_content//\{\{$key\}\}/$val}"
+    content="${content//\{\{$key\}\}/$val}"
     shift
   done
 
   # 3. Markdown in HTML wandeln
-  local html=$(echo "$md_content" | lib/markdown2html.pl )
+  local html=$(echo "$content" | lib/markdown2html.pl )
 
   # 4. Template laden (Variable TEMPLATE muss gesetzt sein)
   if [[ -z "$TEMPLATE" ]]; then

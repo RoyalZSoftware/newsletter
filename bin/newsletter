@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ "$BASE_DIR" = "" ]; then
-    BASE_DIR=./test # can be overriden
+if [ "$DATA_DIR" = "" ]; then
+    DATA_DIR=./test # can be overriden
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
