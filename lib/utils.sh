@@ -42,12 +42,6 @@ deserialize_date() {
   fi
 }
 
-
-# create_outbox_filename <date> <journey> <email>
-function create_outbox_filename {
-    echo ""
-}
-
 function parse_outbox_filename {
     local filename=$(basename "$1")
 
