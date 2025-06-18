@@ -221,7 +221,7 @@ function add_journey {
     fi
     shopt -s nullglob
     local messages=("$JOURNEYS_DIR/$journey"/*)
-    shopt -s nullglob
+    shopt -u nullglob
 
     for message in "${messages[@]}"; do
         local filename=${message##*/}
@@ -263,6 +263,19 @@ function send_due {
         if [[ $? -eq 0 || $? -eq $ERR_NOT_SUBSCRIBED ]]; then
             rm $file
         fi
+    done
+}
+
+# send_to_all <file>
+function send_to_all {
+    local issue_path="$1"
+    shift
+
+    local users=("$SUBSCRIBED_DIR"/*)
+
+    for user in $users; do
+        local email=$(echo ${user##*/})
+        send $email $issue_path $*
     done
 }
 
