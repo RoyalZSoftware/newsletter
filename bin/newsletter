@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ "$BASE_DIR" = "" ]; then
+    BASE_DIR=./test # can be overriden
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$SCRIPT_DIR/../lib"
+
 source $LIB_DIR/newsletter.sh
 
 if [ "$1" = "" ];
