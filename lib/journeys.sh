@@ -93,9 +93,8 @@ function send_due {
             continue
         fi
 
-        # send and remove
         echo "Sending $file to $email"
-        (send "$email" "$file")
+        (send_file "$email" "$file")
         if [[ $? -eq 0 || $? -eq $ERR_NOT_SUBSCRIBED ]]; then
             rm $file
         fi

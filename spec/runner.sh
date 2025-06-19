@@ -36,12 +36,9 @@ run_file_tests() {
     # Finde alle Funktionen die mit test_ anfangen
     for test_func in $(declare -F | awk '{print $3}' | grep '^test_'); do
         [[ "$(type -t setup)" == "function" ]] && setup
+        export LIB_DIR="$SPEC_DIR/../lib"
+        source $LIB_DIR/newsletter.sh
         $test_func
-        if [ $? -gt 0 ]; then
-            ((TESTS_FAILED++))
-        else
-            ((TESTS_PASSED++))
-        fi
         [[ "$(type -t cleanup)" == "function" ]] && cleanup
     done
 

@@ -55,6 +55,7 @@ function unsubscribe {
 
     rm $SUBSCRIBED_DIR/$1
     echo "Successful unsubscribed"
+    clear_journeys $1
 }
 
 function list {

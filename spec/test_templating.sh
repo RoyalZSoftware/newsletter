@@ -10,5 +10,9 @@ function test_templating {
     export MAIL_SERVICE="$SPEC_DIR/mail_mock.sh"
     export CONTENT_DIR="$SPEC_DIR"
 
-    ./bin/newsletter send_file panov@royalzsoftware.de $SPEC_DIR/template_fixture.md
+    compile_template "$(cat $SPEC_DIR/template_fixture.md)"
+}
+
+function cleanup {
+    rm -r $DATA_DIR 2> /dev/null || true
 }

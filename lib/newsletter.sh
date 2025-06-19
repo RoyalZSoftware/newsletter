@@ -26,10 +26,10 @@ fi
 
 PENDING_DIR=$DATA_DIR/pending
 SUBSCRIBED_DIR=$DATA_DIR/subscribed
-OUTBOX_DIR=./var/newsletter/outbox
+OUTBOX_DIR=${OUTBOX_DIR:-./var/newsletter/outbox}
 JOURNEYS_DIR=$CONTENT_DIR/journeys
 
-NOW=`date '+%F_%H:%M:%S'`
+NOW=`date '+%F_%H_%M_%S'`
 
 mkdir -p $DATA_DIR
 mkdir -p $SUBSCRIBED_DIR
@@ -40,6 +40,7 @@ mkdir -p $JOURNEYS_DIR
 chown -R $(whoami) $DATA_DIR
 
 source $LIB_DIR/errors.sh
+source $LIB_DIR/utils.sh
 source $LIB_DIR/cli.sh
 source $LIB_DIR/templating.sh
 source $LIB_DIR/subscription.sh

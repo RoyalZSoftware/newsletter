@@ -1,4 +1,3 @@
 function send_mail {
-    echo ""
-    # echo "$2"
+    echo "$2"
 }
