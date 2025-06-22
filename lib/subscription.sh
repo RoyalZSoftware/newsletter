@@ -59,6 +59,7 @@ function confirm {
         echo "$NOW: Addded to journey: $initial_journey" >> "$SUBSCRIBED_DIR/$1"
     fi
 
+    send_due
     echo "Successful subscribed"
 }
 
