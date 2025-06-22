@@ -6,12 +6,6 @@ source $LIB_DIR/abstract.mailservice.sh
 CONTENT_DIR="${CONTENT_DIR:-$LIB_DIR/content}"
 TEMPLATE="${TEMPLATE:-$CONTENT_DIR/template.html}"
 
-if [[ -f ~/.newsletter ]]; then
-    . ~/.newsletter
-else
-    cp .newsletter.example ~/.newsletter # override any settings in here.
-fi
-
 if [ "$MAIL_SERVICE" ]; then
     if [ "$MAIL_SERVICE" = "msmtp" ]; then
         . $LIB_DIR/msmtp.mailservice.sh
@@ -30,7 +24,7 @@ NOW=`date '+%F_%H_%M_%S'`
 mkdir -p $DATA_DIR
 mkdir -p $SUBSCRIBED_DIR
 mkdir -p $PENDING_DIR
-mkdir -p $OUTBOX_DIR || exit 1
+mkdir -p $OUTBOX_DIR
 mkdir -p $JOURNEYS_DIR
 
 chown -R $(whoami) $DATA_DIR

@@ -1,5 +1,8 @@
 #!/bin/bash
 
 function send_mail {
-    (echo "Subject: Newsletter!"; echo "Content-type: text/html"; echo; echo $2) | msmtp "$1"
+    local email="$1"
+    local content="$2"
+    local subject="${3:-Newsletter}"
+    (echo "Subject: $subject!"; echo "Content-type: text/html"; echo; echo "$content") | msmtp "$email"
 }

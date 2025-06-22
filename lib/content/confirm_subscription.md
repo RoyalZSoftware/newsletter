@@ -1,3 +1,7 @@
+---
+subject: Confirm your subscription
+---
+
 # Confirm Subscription
 
 Confirm your newsletter subscription.

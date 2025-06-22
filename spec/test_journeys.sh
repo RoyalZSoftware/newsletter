@@ -69,6 +69,9 @@ function test_adding_user_to_the_ongoing_journey_twice_should_not_work {
 function test_when_user_subscribes_to_journey_it_should_be_added_after_confirmation {
     local code=$(subscribe $EMAIL welcome |  sed -n 's:.*<p>\(.*\)</p>.*:\1:p')
     assert_equals 0 $(ls $OUTBOX_DIR | wc -l) "The outbox dir should be empty."
+    function send_due() {
+        echo "Do not directly send after confirmation, rather keep it for inspection."
+    }
     confirm $EMAIL $code
     assert_equals 1 $(ls $OUTBOX_DIR | wc -l) "After confirmation the issues of the welcome journey should be in the OUTBOX for $EMAIL"
 }

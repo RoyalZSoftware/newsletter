@@ -1,4 +1,10 @@
 #!/bin/bash
+if [[ -f ~/.newsletter ]]; then
+    . ~/.newsletter
+else
+    cp .newsletter.example ~/.newsletter # override any settings in here.
+fi
+
 if [ "$DATA_DIR" = "" ]; then
     DATA_DIR=./test # can be overriden
 fi

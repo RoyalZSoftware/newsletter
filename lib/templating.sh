@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # compile_template <content>
 compile_template() {
   local content="$1"
