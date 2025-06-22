@@ -3,7 +3,7 @@
 # _is_subscribed <email>
 function _is_subscribed {
     is_strict_email $1
-    [ -f $SUBSCRIBED_DIR/$1 ]
+    [ -f "$SUBSCRIBED_DIR/$1" ]
 }
 
 function _random_code {
@@ -31,7 +31,7 @@ function _get_initial_journey {
     is_strict_email "$1"
     local email="$1"
 
-    local journey=$(sed -n '2p' $PENDING_DIR/$1)
+    local journey=$(sed -n '2p' "$PENDING_DIR/$1")
     echo "$journey"
 }
 
@@ -65,18 +65,18 @@ function confirm {
 # unsubscribe <email>
 function unsubscribe {
     is_strict_email $1
-    if ! [ -f $SUBSCRIBED_DIR/$1 ];
+    if ! [ -f "$SUBSCRIBED_DIR/$1" ];
     then
         echo "Email is not subscribed."
         exit $ERR_NOT_SUBSCRIBED
     fi
 
-    rm $SUBSCRIBED_DIR/$1
+    rm "$SUBSCRIBED_DIR/$1"
     echo "Successful unsubscribed"
     clear_journeys $1
 }
 
 function list {
     echo "Pending: $(ls $PENDING_DIR)"
-    echo "Subscribed: $(ls $SUBSCRIBED_DIR)"
+    echo "Subscribed: $(ls "$SUBSCRIBED_DIR")"
 }

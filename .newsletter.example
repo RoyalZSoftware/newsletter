@@ -1,3 +1,2 @@
 # export MAIL_SERVICE=sendgrid
 # export DATA_DIR=~/newsletter
-# export CONTENT_DIR=~/newsletter/content

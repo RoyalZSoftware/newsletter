@@ -39,7 +39,7 @@ function user_in_journey {
 
 function _ensure_journey_exists {
     local journey="$1"
-    if ! [ -d $JOURNEYS_DIR/$journey ]; then
+    if ! [ -d "$JOURNEYS_DIR/$journey" ]; then
         echo "Journey not found."
         exit $ERR_JOURNEY_NOT_FOUND
     fi
@@ -50,7 +50,7 @@ function _ensure_journey_exists {
 function add_journey {
     local email="$1"
     local journey="$2"
-    if ! [ -f $SUBSCRIBED_DIR/$1 ]; then
+    if ! [ -f "$SUBSCRIBED_DIR/$1" ]; then
         echo "User not subscribed."
         exit $ERR_NOT_SUBSCRIBED
     fi

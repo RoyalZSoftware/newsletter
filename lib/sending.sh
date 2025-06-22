@@ -10,8 +10,8 @@ function send {
     is_strict_email "$email"
     local compiled_template=$(compile_template "$content" $*)
     send_mail "$email" "$compiled_template"
-    if [ -f $SUBSCRIBED_DIR/$1 ]; then
-      echo "Sent email issue $2 at $NOW" >> $SUBSCRIBED_DIR/$email
+    if [ -f "$SUBSCRIBED_DIR/$1" ]; then
+      echo "Sent email issue $2 at $NOW" >> "$SUBSCRIBED_DIR/$email"
     fi
 }
 

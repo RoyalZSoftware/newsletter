@@ -10,7 +10,7 @@ source $LIB_DIR/abstract.mailservice.sh
 CONTENT_DIR="${CONTENT_DIR:-$LIB_DIR/content}"
 TEMPLATE="${TEMPLATE:-$CONTENT_DIR/template.html}"
 
-if [[ -f ~/.newsletter && ! "$NEWSLETTER_ENV" = "test" ]]; then
+if [[ -f ~/.newsletter ]]; then
     . ~/.newsletter
 else
     cp .newsletter.example ~/.newsletter # override any settings in here.
@@ -26,7 +26,7 @@ fi
 
 PENDING_DIR=$DATA_DIR/pending
 SUBSCRIBED_DIR=$DATA_DIR/subscribed
-OUTBOX_DIR=${OUTBOX_DIR:-/var/newsletter/outbox}
+OUTBOX_DIR=$DATA_DIR/outbox
 JOURNEYS_DIR=$CONTENT_DIR/journeys
 
 NOW=`date '+%F_%H_%M_%S'`
