@@ -46,9 +46,12 @@ export const makeClient = (options) => {
     }
 
     return {
-        subscribe: (email) => call('subscribe', email),
+        subscribe: (email, initialJourney = undefined) => call('subscribe', email, initialJourney),
         confirm: (email, code) => call('confirm', email, code),
         unsubscribe: (email) => call('unsubscribe', email),
         list: () => call('list'),
+        addToJourney: (email, journey) => call('add_journey', email, journey),
+        removeFromJourney: (email, journey) => call('remove_journey', email, journey),
+        clearJourneys: (email) => call('clear_journeys', email)
     };
 }
