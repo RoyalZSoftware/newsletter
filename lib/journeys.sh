@@ -37,6 +37,15 @@ function user_in_journey {
     return 1
 }
 
+function _ensure_journey_exists {
+    local journey="$1"
+    if ! [ -d $JOURNEYS_DIR/$journey ]; then
+        echo "Journey not found."
+        exit $ERR_JOURNEY_NOT_FOUND
+    fi
+}
+
+
 # add_journey <email> <journey>
 function add_journey {
     local email="$1"
@@ -51,10 +60,8 @@ function add_journey {
         exit $ERR_ALREADY_IN_JOURNEY
     fi
 
-    if ! [ -d $JOURNEYS_DIR/$journey ]; then
-        echo "Journey not found."
-        exit $ERR_JOURNEY_NOT_FOUND
-    fi
+    _ensure_journey_exists "$journey"
+
     shopt -s nullglob
     local messages=("$JOURNEYS_DIR/$journey"/*)
     shopt -u nullglob

@@ -38,8 +38,10 @@ run_file_tests() {
         [[ "$(type -t setup)" == "function" ]] && setup
         export LIB_DIR="$SPEC_DIR/../lib"
         source $LIB_DIR/newsletter.sh
+        echo $test_func
         $test_func
         [[ "$(type -t cleanup)" == "function" ]] && cleanup
+        echo "---"
     done
 
     # Unload die geladenen test_ Funktionen

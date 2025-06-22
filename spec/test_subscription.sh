@@ -10,11 +10,11 @@ function test_subscription_flow {
     export TEMPLATE="$SPEC_DIR/content_only_template.html"
     export CONTENT_DIR="$SPEC_DIR"
 
-    local code=$(./bin/newsletter subscribe panov@royalzsoftware.de | sed -n 's:.*<p>\(.*\)</p>.*:\1:p')
-    assert_equals 0 $?
-    ./bin/newsletter confirm panov@royalzsoftware.de $code
-    ./bin/newsletter unsubscribe panov@royalzsoftware.de
-    assert_equals 0 $?
+    local code=$(subscribe panov@royalzsoftware.de | sed -n 's:.*<p>\(.*\)</p>.*:\1:p')
+    assert_equals 0 $? "Subscribing should work."
+    confirm panov@royalzsoftware.de $code
+    unsubscribe panov@royalzsoftware.de
+    assert_equals 0 $? "Unsubscribing should work"
 }
 
 function cleanup {

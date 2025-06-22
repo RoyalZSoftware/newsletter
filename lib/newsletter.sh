@@ -26,7 +26,7 @@ fi
 
 PENDING_DIR=$DATA_DIR/pending
 SUBSCRIBED_DIR=$DATA_DIR/subscribed
-OUTBOX_DIR=${OUTBOX_DIR:-./var/newsletter/outbox}
+OUTBOX_DIR=${OUTBOX_DIR:-/var/newsletter/outbox}
 JOURNEYS_DIR=$CONTENT_DIR/journeys
 
 NOW=`date '+%F_%H_%M_%S'`
@@ -34,7 +34,7 @@ NOW=`date '+%F_%H_%M_%S'`
 mkdir -p $DATA_DIR
 mkdir -p $SUBSCRIBED_DIR
 mkdir -p $PENDING_DIR
-mkdir -p $OUTBOX_DIR
+mkdir -p $OUTBOX_DIR || exit 1
 mkdir -p $JOURNEYS_DIR
 
 chown -R $(whoami) $DATA_DIR
