@@ -13,8 +13,8 @@ else
 fi
 
 if [ "$MAIL_SERVICE" ]; then
-    if [ "$MAIL_SERVICE" = "sendgrid" ]; then
-        . $LIB_DIR/sendgrid.mailservice.sh
+    if [ "$MAIL_SERVICE" = "msmtp" ]; then
+        . $LIB_DIR/msmtp.mailservice.sh
     else
         . $MAIL_SERVICE
     fi

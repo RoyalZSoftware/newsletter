@@ -18,5 +18,50 @@ usage
 exit 1
 fi
 
+cmd="$1"
+shift
+
+case $cmd in
+
+    subscribe)
+        subscribe "$1" "$2"
+        ;;
+
+    confirm)
+        confirm "$1" "$2"
+        ;;
+
+    unsubscribe)
+        unsubscribe "$1"
+        ;;
+
+    send)
+        send "$1" "$2"
+        ;;
+
+    send_due)
+        send_due
+        ;;
+
+    add_journey)
+        add_journey "$1" "$2"
+        ;;
+
+    remove_journey)
+        remove_journey "$1" "$2"
+        ;;
+
+    clear_journeys)
+        clear_journeys "$1"
+        ;;
+
+    list)
+        list
+        ;;
+
+    *)
+        usage
+        ;;
+esac
+
 # use params from cli to invoke functions from lib/newsletter.sh
-"$@"
