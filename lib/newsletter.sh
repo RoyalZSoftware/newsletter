@@ -1,10 +1,6 @@
 #!/bin/bash
 
 # Bei Installation z. B. in /usr/local/bin, LIB_DIR auf /usr/local/share/newsletter setzen
-if [ "$SCRIPT_DIR" = "/usr/local/bin" ]; then
-    LIB_DIR="/usr/local/share/newsletter"
-fi
-
 source $LIB_DIR/abstract.mailservice.sh
 
 CONTENT_DIR="${CONTENT_DIR:-$LIB_DIR/content}"

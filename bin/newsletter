@@ -4,7 +4,11 @@ if [ "$DATA_DIR" = "" ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LIB_DIR="$SCRIPT_DIR/../lib"
+if [ "$SCRIPT_DIR" = "/usr/local/bin" ]; then
+    LIB_DIR="/usr/local/share/newsletter"
+else
+    LIB_DIR="$SCRIPT_DIR/../lib"
+fi
 
 source $LIB_DIR/newsletter.sh
 
